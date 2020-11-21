@@ -25,6 +25,13 @@ const AddTodo = () => {
                 <input type="text" className="form-control mb-3" name="task"
                     onChange={formik.handleChange}
                     value={formik.values.task} />
+                {formik.touched.task && formik.errors.task ? (
+                    <div className="alert alert-danger" role="alert">
+                        <strong>
+                            <div>{formik.errors.task}</div>
+                        </strong>
+                    </div>
+                ) : null}
                 <button type="submit" className="btn btn-primary btn-block">Ajouter</button>
             </form>
         </div>
