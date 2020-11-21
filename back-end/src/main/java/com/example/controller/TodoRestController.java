@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.entities.Todo;
-import com.example.repository.TodoRepository;
+import com.example.services.TodoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,36 +9,36 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class TodoRestController {
-    private final TodoRepository todoRepository;
+    private final TodoService todoService;
 
-    public TodoRestController(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
+    public TodoRestController(TodoService todoService) {
+        this.todoService = todoService;
     }
 
     @GetMapping("/listTodos")
     public List<Todo> getAllTodos() {
-        return todoRepository.findAll();
+        return todoService.getAllTodos();
     }
 
     @GetMapping("/todo/{id}")
     public Todo getTodo(@PathVariable("id") Long id) {
-        return todoRepository.findById(id).get();
+        return todoService.getTodo(id);
     }
 
     @PutMapping("/updateTodo/{id}")
     public Todo UpdateTodo(@PathVariable("id") Long id, @RequestBody Todo todo) {
         todo.setId(id);
-        return todoRepository.save(todo);
+        return todoService.addTodo(todo);
     }
 
     @PostMapping("/addTodo")
     public Todo addTodo(@RequestBody Todo todo) {
-        return todoRepository.save(todo);
+        return todoService.addTodo(todo);
     }
 
     @DeleteMapping("/deleteTodo/{id}")
     public void deleteTodo(@PathVariable("id") Long id) {
-        todoRepository.deleteById(id);
+        todoService.deleteTodo(id);
     }
 
 }
