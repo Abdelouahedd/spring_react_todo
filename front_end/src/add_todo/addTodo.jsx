@@ -1,11 +1,10 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addTask } from '../actions/taskActions';
 import { useTaskst } from '../context/list_context';
 
 const AddTodo = () => {
-    const { dispatch } = useTaskst();
+    const { addTask } = useTaskst();
 
     const validate = Yup.object({
         task: Yup.string()
@@ -13,7 +12,6 @@ const AddTodo = () => {
             .max(15, 'Must be 15 characters or less')
             .required('Required'),
     });
-
 
     const formik = useFormik({
         initialValues: {
@@ -26,13 +24,12 @@ const AddTodo = () => {
                 task: values.task,
                 completed: false
             }
-            // addTask(dispatch, task);
-            console.log(task);
+            addTask(task);
         },
     });
     return (
         <div className="col-12 col-sm-12 col-lg-12 col-xl-12">
-            <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit}>
                 <input type="text" className="form-control mb-3" name="task"
                     onChange={formik.handleChange}
                     value={formik.values.task} />

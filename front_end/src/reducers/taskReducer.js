@@ -1,5 +1,5 @@
 
-const TaskReducer = (state, action) => {
+const TaskReducer = (state  , action) => {
     switch (action.type) {
         case "GET_ALL_TASKS":
             return {
@@ -9,7 +9,7 @@ const TaskReducer = (state, action) => {
         case "ADD_TASK":
             return {
                 ...state,
-                tasks: state.tasks?.push(action.payload)
+                tasks: state.tasks.concat(action.payload)
             };
         case "DELETE_TASK":
             return {
