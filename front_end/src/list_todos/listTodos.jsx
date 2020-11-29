@@ -1,5 +1,5 @@
-import React from 'react'
-import { deleteTask, getTask, updateTask } from '../actions/taskActions';
+import React, { useCallback, useEffect } from 'react'
+import { deleteTask, getAllTask, getTask, updateTask } from '../actions/taskActions';
 import { useTaskst } from '../context/list_context'
 
 export default function ListTodos(props) {
@@ -11,9 +11,32 @@ export default function ListTodos(props) {
         props.onUpdate()
     }
 
+
+    const getDate = useCallback(
+        async () => {
+            const res = await fetch(`http://localhost:8080/listTodos`);
+            const tasks = await res.json();
+            dispatch(getAllTask(tasks));
+        },
+        [dispatch],
+    )
+
+
+    useEffect(() => {
+        getDate();
+    }, [getDate]);
+
+
     const onCompleteTask = async (task) => {
         const newTask = { ...task, completed: !task.completed }
         await dispatch(updateTask(newTask));
+        await fetch(`http://localhost:8080/updateTodo/${task.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(newTask)
+        });
     }
 
     return (

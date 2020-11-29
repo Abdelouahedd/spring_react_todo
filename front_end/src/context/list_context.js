@@ -7,23 +7,7 @@ const initState = {
         task: "",
         completed: false
     },
-    tasks: [
-        {
-            id: 1,
-            task: "learn spring",
-            completed: false
-        },
-        {
-            id: 2,
-            task: "learn nextJS",
-            completed: false
-        },
-        {
-            id: 3,
-            task: "learn ReactJS and express js",
-            completed: true
-        }
-    ]
+    tasks: []
 }
 
 export const Taskscontext = React.createContext();
