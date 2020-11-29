@@ -1,9 +1,16 @@
 import React from 'react'
+import { deleteTask, getTask } from '../actions/taskActions';
 import { useTaskst } from '../context/list_context'
 
-export default function ListTodos() {
+export default function ListTodos(props) {
 
-    const { state } = useTaskst();
+    const { state, dispatch } = useTaskst();
+
+    const selectTask = (task) => {
+            dispatch(getTask(task));
+            props.onUpdate()
+        }
+
     return (
         <div className=" justify-content-md-center">
             <ul className="list-group list-group-flush">
@@ -19,12 +26,12 @@ export default function ListTodos() {
                                 </div>
 
                                 <div className="col-1">
-                                    <button className="btn btn-success">
+                                    <button className="btn btn-success" onClick={() => selectTask(el)}>
                                         <i className="fa fa-pen" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div className="col-1">
-                                    <button className="btn btn-danger">
+                                    <button className="btn btn-danger" onClick={() => dispatch(deleteTask(el.id))}>
                                         <i className="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </div>

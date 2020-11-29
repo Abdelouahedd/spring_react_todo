@@ -2,6 +2,11 @@ import React from "react";
 import TaskReducer from "../reducers/taskReducer";
 
 const initState = {
+    task: {
+        id: 0,
+        task: "",
+        completed: false
+    },
     tasks: [
         {
             id: 1,
@@ -41,11 +46,8 @@ export function useTaskst() {
     }
     const [state, dispatch] = context
 
-    const addTask = (task) => dispatch({ type: "ADD_TASK", payload: task });
-
     return {
         state,
         dispatch,
-        addTask,
     }
 }

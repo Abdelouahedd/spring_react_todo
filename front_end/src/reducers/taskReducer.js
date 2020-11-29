@@ -1,10 +1,15 @@
 
-const TaskReducer = (state  , action) => {
+const TaskReducer = (state, action) => {
     switch (action.type) {
         case "GET_ALL_TASKS":
             return {
                 ...state,
                 tasks: action.payload
+            };
+        case "GET_TASK":
+            return {
+                ...state,
+                task: action.payload
             };
         case "ADD_TASK":
             return {
@@ -18,6 +23,7 @@ const TaskReducer = (state  , action) => {
             };
         case "UPDATE_TASK":
             return {
+                ...state,
                 tasks: state.tasks.map(
                     task =>
                         task.id === action.payload.id ?

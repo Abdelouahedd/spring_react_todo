@@ -1,46 +1,55 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import React, { useState, useEffect } from 'react';
 import { useTaskst } from '../context/list_context';
+import { addTask, updateTask } from '../actions/taskActions';
 
-const AddTodo = () => {
-    const { addTask } = useTaskst();
+const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
 
-    const validate = Yup.object({
-        task: Yup.string()
-            .min(3, 'Must be 3 characters or more')
-            .max(15, 'Must be 15 characters or less')
-            .required('Required'),
-    });
+    const { dispatch, state } = useTaskst();
+    const [taskState, setTask] = useState("");
 
-    const formik = useFormik({
-        initialValues: {
-            task: '',
-        },
-        validationSchema: validate,
-        onSubmit: (values, actions) => {
-            const task = {
-                id: Math.random(),
-                task: values.task,
-                completed: false
-            }
-            addTask(task);
-        },
-    });
+    useEffect(() => {
+        setTask(state.task.task);
+    }, [state.task.task]);
+
+    const modifierTask = async (e) => {
+        e.preventDefault();
+        const task = {
+            id: state.task?.id,
+            task: taskState,
+            completed: state.task?.completed
+        }
+        await dispatch(updateTask(task));
+        setChangeToUpdate(false);
+        setTask('');
+    }
+
+    const onAddTask = async (e) => {
+        e.preventDefault();
+        const task = {
+            id: Math.random(),
+            task: taskState,
+            completed: false
+        }
+        await dispatch(addTask(task));
+        setTask('');
+    }
+
     return (
         <div className="col-12 col-sm-12 col-lg-12 col-xl-12">
-                <form onSubmit={formik.handleSubmit}>
-                <input type="text" className="form-control mb-3" name="task"
-                    onChange={formik.handleChange}
-                    value={formik.values.task} />
-                {formik.touched.task && formik.errors.task ? (
-                    <div className="alert alert-danger" role="alert">
-                        <strong>
-                            <div>{formik.errors.task}</div>
-                        </strong>
-                    </div>
-                ) : null}
-                <button type="submit" className="btn btn-primary btn-block">Ajouter</button>
+            <form>
+                <input type="text"
+                    className="form-control mb-3"
+                    name="task"
+                    required
+                    onChange={(e) => setTask(e.target.value)}
+                    value={taskState}
+                />
+                {
+                    isUpdate ?
+                        <button type="submit" className="btn btn-success btn-block" onClick={(e) => modifierTask(e)}>Modifier</button>
+                        :
+                        <button type="submit" className="btn btn-primary btn-block" onClick={(e) => onAddTask(e)}>Ajouter</button>
+                }
             </form>
         </div>
     );
