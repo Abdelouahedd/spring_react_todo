@@ -1,5 +1,5 @@
 import React from 'react'
-import { deleteTask, getTask } from '../actions/taskActions';
+import { deleteTask, getTask, updateTask } from '../actions/taskActions';
 import { useTaskst } from '../context/list_context'
 
 export default function ListTodos(props) {
@@ -7,9 +7,14 @@ export default function ListTodos(props) {
     const { state, dispatch } = useTaskst();
 
     const selectTask = (task) => {
-            dispatch(getTask(task));
-            props.onUpdate()
-        }
+        dispatch(getTask(task));
+        props.onUpdate()
+    }
+
+    const onCompleteTask = async (task) => {
+        const newTask = { ...task, completed: !task.completed }
+        await dispatch(updateTask(newTask));
+    }
 
     return (
         <div className=" justify-content-md-center">
@@ -19,7 +24,13 @@ export default function ListTodos(props) {
                         <li key={el.id} className="list-group-item">
                             <div className="form-row ml-4">
                                 <div className="col-10 form-check">
-                                    <input className="form-check-input" type="checkbox" value={el.completed} defaultChecked={el.completed} id="defaultCheck1" />
+                                    <input className="form-check-input" type="checkbox"
+                                        value={el.completed}
+                                        defaultChecked={el.completed}
+                                        id="defaultCheck1"
+                                        onChange={() => onCompleteTask(el)}
+
+                                    />
                                     <label className="form-check-label" htmlFor="defaultCheck1">
                                         {el.task}
                                     </label>
