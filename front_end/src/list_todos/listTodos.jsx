@@ -39,6 +39,16 @@ export default function ListTodos(props) {
         });
     }
 
+    const removeTask = async (task) => {
+        await dispatch(deleteTask(task));
+        await fetch(`http://localhost:8080/deleteTodo/${task.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+        });
+    }
+
     return (
         <div className=" justify-content-md-center">
             <ul className="list-group list-group-flush">
@@ -65,7 +75,7 @@ export default function ListTodos(props) {
                                     </button>
                                 </div>
                                 <div className="col-1">
-                                    <button className="btn btn-danger" onClick={() => dispatch(deleteTask(el.id))}>
+                                    <button className="btn btn-danger" onClick={() => removeTask(el)}>
                                         <i className="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </div>
