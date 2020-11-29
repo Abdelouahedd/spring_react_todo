@@ -19,6 +19,13 @@ const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
             completed: state.task?.completed
         }
         await dispatch(updateTask(task));
+        await fetch(`http://localhost:8080/updateTodo/${task.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(task)
+        });
         setChangeToUpdate(false);
         setTask('');
     }
@@ -31,6 +38,13 @@ const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
             completed: false
         }
         await dispatch(addTask(task));
+        await fetch(`http://localhost:8080/addTodo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(task)
+        });
         setTask('');
     }
 
