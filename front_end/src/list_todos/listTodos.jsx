@@ -16,6 +16,7 @@ export default function ListTodos(props) {
         async () => {
             const res = await fetch(`http://localhost:8080/listTodos`);
             const tasks = await res.json();
+            console.log("tasks --> ",tasks);
             dispatch(getAllTask(tasks));
         },
         [dispatch],
