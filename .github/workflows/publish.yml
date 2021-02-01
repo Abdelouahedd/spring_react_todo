@@ -1,0 +1,31 @@
+name: publish docker image
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    publish_backend_to_registry:
+        name: Push docker image to docker hub
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v2
+            - name: docker login
+              env:
+                DOCKER_USER: khalilabdelhamid
+                DOCKER_PASSWORD: helloworld
+              run: |
+                docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+            - name: build backend docker image
+              run: docker build back-end -t khalilabdelhamid/todo:backend
+            - name: publish backend docker image
+              run: docker push khalilabdelhamid/todo:backend
+
+            - name: build frontend docker image
+              run: docker build front-end -t khalilabdelhamid/todo:front
+            - name: publish front docker image
+              run: docker push khalilabdelhamid/todo:frontend
+
