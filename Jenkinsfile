@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    stages {
+ /*   stages {
         stage('Testing Environment') {
             steps {
                 dir("back-end/") {
@@ -15,7 +15,7 @@ pipeline {
                     sh 'mvn install -DskipTests'
                 }
             }
-        }
+        }*/
         stage('Staging') {
             steps {
                 sh 'sudo docker-compose build'
