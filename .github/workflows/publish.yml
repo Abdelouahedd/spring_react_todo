@@ -25,7 +25,7 @@ jobs:
               run: docker push khalilabdelhamid/todo:backend
 
             - name: build frontend docker image
-              run: docker build front-end -t khalilabdelhamid/todo:front
+              run: docker build front_end -t khalilabdelhamid/todo:frontend
             - name: publish front docker image
               run: docker push khalilabdelhamid/todo:frontend
 
