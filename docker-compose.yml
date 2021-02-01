@@ -18,7 +18,7 @@ services:
         context: ./back-end
         dockerfile: Dockerfile
     ports:
-        - 8081:8080
+        - 8080:8080
     environment:
         MYSQL_HOST: database
     depends_on:
@@ -26,9 +26,9 @@ services:
   
   frontend:
     image: todo:front
-    container_naem: todofrontend
+    container_name: todofrontend
     build:
-        context: ./front-end
+        context: ./front_end
         dockerfile: Dockerfile
     ports:
         - 4444:80
