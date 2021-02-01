@@ -3,7 +3,7 @@ name: publish docker image
 on:
     push:
         branches:
-            - master
+            - main
 
 jobs:
     publish_backend_to_registry:
