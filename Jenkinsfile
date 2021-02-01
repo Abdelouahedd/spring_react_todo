@@ -5,7 +5,7 @@ pipeline {
         stage('Testing Environment') {
             steps {
                 dir("back-end/") {
-                    sh 'mvn test-Dtest=DemoApplicationTests'
+                    sh 'mvn test -Dtest=DemoApplicationTests'
                 }
             }
         }
