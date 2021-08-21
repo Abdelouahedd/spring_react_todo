@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.example.demo.repository;
 
-import com.example.entities.Todo;
+import com.example.demo.entities.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
