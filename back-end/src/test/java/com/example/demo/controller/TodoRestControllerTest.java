@@ -14,11 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
-
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -29,6 +26,16 @@ class TodoRestControllerTest {
     private TodoService todoService;
     @Autowired
     private MockMvc mockMvc;
+
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     @DisplayName("GET /todo/{id} ")
@@ -54,7 +61,7 @@ class TodoRestControllerTest {
 
     @Test
     @DisplayName("Post /addTodo ")
-    void testAddTodo() throws Exception  {
+    void testAddTodo() throws Exception {
         Todo todo = new Todo(1L, "Learing TDD", false);
         Todo mockTodo = new Todo(1L, "Learing TDD", false);
         doReturn(mockTodo).when(todoService).addTodo(todo);
@@ -68,13 +75,49 @@ class TodoRestControllerTest {
                 .andExpect(jsonPath("$.completed").value(false));
     }
 
-    public static String asJsonString(final Object obj) {
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            final String jsonContent = mapper.writeValueAsString(obj);
-            return jsonContent;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @Test
+    @DisplayName("Put /updateTodo/{id} - SUCCESS")
+    void testUpdateTodo() throws Exception {
+        Todo todo = new Todo(1L, "Learing TDD", false);
+        Todo mockTodo = new Todo(1L, "Learing TDD", true);
+        doReturn(mockTodo).when(todoService).UpdateTodo(1L, todo);
+        mockMvc.perform(put("/updateTodo/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(todo)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.task").value("Learing TDD"))
+                .andExpect(jsonPath("$.completed").value(true));
+
+    }
+
+    @Test
+    @DisplayName("Put /updateTodo/{id} - FAILURE")
+    void testUpdateTodoFailure() throws Exception {
+        Todo todo = new Todo(1L, "Learing TDD", false);
+        doReturn(null).when(todoService).getTodo(1L);
+        mockMvc.perform(put("/updateTodo/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(todo)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Delete /deleteTodo/{id} - SUCCESS")
+    void testDeleteTodo() throws Exception {
+        Todo todo = new Todo(1L, "Learing TDD", false);
+        doReturn(todo).when(todoService).getTodo(1L);
+        mockMvc.perform(delete("/deleteTodo/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    @Test
+    @DisplayName("Delete /deleteTodo/{id} - Not Found")
+    void testDeleteTodoNotFound() throws Exception {
+        doReturn(null).when(todoService).getTodo(1L);
+        mockMvc.perform(delete("/deleteTodo/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
