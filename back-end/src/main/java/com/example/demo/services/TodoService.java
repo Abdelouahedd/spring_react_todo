@@ -1,7 +1,7 @@
-package com.example.services;
+package com.example.demo.services;
 
-import com.example.entities.Todo;
-import com.example.repository.TodoRepository;
+import com.example.demo.entities.Todo;
+import com.example.demo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

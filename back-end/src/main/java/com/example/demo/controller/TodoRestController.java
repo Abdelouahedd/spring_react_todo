@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.example.demo.controller;
 
-import com.example.entities.Todo;
-import com.example.services.TodoService;
+import com.example.demo.entities.Todo;
+import com.example.demo.services.TodoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
