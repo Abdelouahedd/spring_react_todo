@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(SpringExtension.class)
@@ -57,6 +58,18 @@ class TodoServiceTest {
         List<Todo> todos = service.getAllTodos();
 
         Assertions.assertEquals(todos.size(),2, "Should return 2 todos");
+    }
+
+    @Test
+    @DisplayName("test save todo - Success ")
+    void testSaveTodo() throws Exception {
+
+        Todo mockTodo = new Todo(1L, "Learing Spring", false);
+        doReturn(mockTodo).when(repository).save(any());
+        Todo todo = service.addTodo(mockTodo);
+
+        Assertions.assertNotNull(todo, "Saved todo shouldn't be null");
+        Assertions.assertSame(mockTodo,todo);
     }
 
 
