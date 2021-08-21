@@ -23,7 +23,7 @@ public class TodoRestController {
 
     @GetMapping("/todo/{id}")
     public Todo getTodo(@PathVariable("id") Long id) {
-        return todoService.getTodo(id);
+        return todoService.getTodo(id).isPresent() ? todoService.getTodo(id).get() : null;
     }
 
     @PutMapping("/updateTodo/{id}")
