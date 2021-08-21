@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
@@ -43,6 +45,18 @@ class TodoServiceTest {
         Optional<Todo> todo = service.getTodo(1L);
 
         Assertions.assertFalse(todo.isPresent(), "Todo was found, when it shoulden't be");
+    }
+
+    @Test
+    @DisplayName("test find all todo - Success ")
+    void testGetTodos() throws Exception {
+        Todo todo = new Todo(1L, "Learing TDD", false);
+        Todo mockTodo = new Todo(2L, "Learing Spring", false);
+        doReturn(Arrays.asList(todo,mockTodo)).when(repository).findAll();
+
+        List<Todo> todos = service.getAllTodos();
+
+        Assertions.assertEquals(todos.size(),2, "Should return 2 todos");
     }
 
 
