@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,5 +40,13 @@ class TodoRestControllerTest {
                 .andExpect(jsonPath("$.task").value("Learing TDD"))
                 .andExpect(jsonPath("$.completed").value(false));
 
+    }
+
+    @Test
+    @DisplayName("GET /todo/{id} ")
+    void testGetTodoByIdNotFound() throws Exception {
+        doReturn(null).when(todoService).getTodo(1L);
+        mockMvc.perform(get("/todo/1"))
+                .andExpect(status().isOk());
     }
 }
