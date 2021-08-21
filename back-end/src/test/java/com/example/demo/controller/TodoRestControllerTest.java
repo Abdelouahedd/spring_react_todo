@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entities.Todo;
 import com.example.demo.services.TodoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -48,5 +50,31 @@ class TodoRestControllerTest {
         doReturn(null).when(todoService).getTodo(1L);
         mockMvc.perform(get("/todo/1"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Post /addTodo ")
+    void testAddTodo() throws Exception  {
+        Todo todo = new Todo(1L, "Learing TDD", false);
+        Todo mockTodo = new Todo(1L, "Learing TDD", false);
+        doReturn(mockTodo).when(todoService).addTodo(todo);
+        mockMvc.perform(post("/addTodo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(todo)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.task").value("Learing TDD"))
+                .andExpect(jsonPath("$.completed").value(false));
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
