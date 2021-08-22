@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,7 +43,7 @@ class TodoRestControllerTest {
     @DisplayName("GET /todo/{id} ")
     void testGetTodoById() throws Exception {
         Todo mockTodo = new Todo(1L, "Learing TDD", false);
-        doReturn(mockTodo).when(todoService).getTodo(1L);
+        doReturn(Optional.of(mockTodo)).when(todoService).getTodo(1L);
         mockMvc.perform(get("/todo/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -54,7 +56,7 @@ class TodoRestControllerTest {
     @Test
     @DisplayName("GET /todo/{id} ")
     void testGetTodoByIdNotFound() throws Exception {
-        doReturn(null).when(todoService).getTodo(1L);
+        doReturn(Optional.empty()).when(todoService).getTodo(1L);
         mockMvc.perform(get("/todo/1"))
                 .andExpect(status().isOk());
     }
@@ -107,7 +109,7 @@ class TodoRestControllerTest {
     @DisplayName("Delete /deleteTodo/{id} - SUCCESS")
     void testDeleteTodo() throws Exception {
         Todo todo = new Todo(1L, "Learing TDD", false);
-        doReturn(todo).when(todoService).getTodo(1L);
+        doReturn(Optional.of(todo)).when(todoService).getTodo(1L);
         mockMvc.perform(delete("/deleteTodo/" + 1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

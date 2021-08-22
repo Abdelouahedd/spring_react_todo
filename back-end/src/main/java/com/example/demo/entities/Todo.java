@@ -19,4 +19,9 @@ public class Todo {
     private Long id;
     private String task;
     private boolean isCompleted;
+
+    public Todo(String task, boolean isCompleted) {
+        this.task = task;
+        this.isCompleted = isCompleted;
+    }
 }
