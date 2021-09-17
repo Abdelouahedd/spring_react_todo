@@ -10,6 +10,7 @@ services:
         MYSQL_DATABASE: SPRING_DB
     ports:
         - 3306:3306
+    restart: always
     networks:
         - db-network
 

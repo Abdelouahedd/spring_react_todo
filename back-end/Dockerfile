@@ -1,7 +1,8 @@
 FROM maven:3-openjdk-8 as build
 WORKDIR /app
 COPY . /app
-RUN mvn package 
+RUN mvn dependency:go-offline -B
+RUN mvn package
 
 FROM openjdk:8
 WORKDIR /app
