@@ -7,16 +7,16 @@ services:
     container_name: tododb
     environment:
         MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: root
         MYSQL_DATABASE: SPRING_DB
     ports:
         - 3306:3306
     restart: always
-    networks:
-        - db-network
+
 
   backend:
     image: todo:backend
-    container_name: todobackend
+    container_name: backend
     build:
         context: ./back-end
         dockerfile: Dockerfile
@@ -26,9 +26,6 @@ services:
         MYSQL_HOST: database
     depends_on:
         - database
-    networks: # Networks to join (Services on the same network can communicate with each other using their name)
-        - app-network
-        - db-network
   
   frontend:
     image: todo:front
@@ -36,14 +33,9 @@ services:
     build:
         context: ./front_end
         dockerfile: Dockerfile
+        args:
+            REACT_APP_PROD_API: /api
     ports:
-        - 4444:80
-    networks:
-        - app-network
+        - 80:80
     depends_on:
-        - database
         - backend
-
-networks:
-    app-network:
-    db-network:

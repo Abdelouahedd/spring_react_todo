@@ -19,7 +19,7 @@ const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
             completed: state.task?.completed
         }
         await dispatch(updateTask(task));
-        await fetch(`/api/updateTodo/${task.id}`, {
+        await fetch(`${process.env.REACT_APP_PROD_API}/updateTodo/${task.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
