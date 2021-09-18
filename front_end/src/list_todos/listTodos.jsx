@@ -14,7 +14,7 @@ export default function ListTodos(props) {
 
     const getDate = useCallback(
         async () => {
-            const res = await fetch(`http://localhost:8080/listTodos`);
+            const res = await fetch(`${process.env.REACT_APP_PROD_API}/listTodos`);
             const tasks = await res.json();
             console.log("tasks --> ",tasks);
             dispatch(getAllTask(tasks));
@@ -24,6 +24,7 @@ export default function ListTodos(props) {
 
 
     useEffect(() => {
+        console.log(`${process.env.REACT_APP_PROD_API}/listTodos`);
         getDate();
     }, [getDate]);
 
@@ -31,7 +32,7 @@ export default function ListTodos(props) {
     const onCompleteTask = async (task) => {
         const newTask = { ...task, completed: !task.completed }
         await dispatch(updateTask(newTask));
-        await fetch(`http://localhost:8080/updateTodo/${task.id}`, {
+        await fetch(`${process.env.REACT_APP_PROD_API}/updateTodo/${task.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -42,7 +43,7 @@ export default function ListTodos(props) {
 
     const removeTask = async (task) => {
         await dispatch(deleteTask(task));
-        await fetch(`http://localhost:8080/deleteTodo/${task.id}`, {
+        await fetch(`${process.env.REACT_APP_PROD_API}/deleteTodo/${task.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

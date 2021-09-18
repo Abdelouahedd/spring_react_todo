@@ -114,6 +114,7 @@ class TodoRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
     @Test
     @DisplayName("Delete /deleteTodo/{id} - Not Found")
     void testDeleteTodoNotFound() throws Exception {

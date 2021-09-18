@@ -19,7 +19,7 @@ const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
             completed: state.task?.completed
         }
         await dispatch(updateTask(task));
-        await fetch(`http://localhost:8080/updateTodo/${task.id}`, {
+        await fetch(`${process.env.REACT_APP_PROD_API}/updateTodo/${task.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -38,7 +38,7 @@ const AddTodo = ({ isUpdate, setChangeToUpdate }) => {
             completed: false
         }
         await dispatch(addTask(task));
-        await fetch(`http://localhost:8080/addTodo`, {
+        await fetch(`/api/addTodo`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

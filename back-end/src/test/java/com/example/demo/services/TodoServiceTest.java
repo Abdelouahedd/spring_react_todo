@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,12 +17,14 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)//the annotation used to init all Mock
 class TodoServiceTest {
-    @Autowired
+    @InjectMocks
+    //create the mock impl and additionally injects the dependent mocks that
+    //are marked with the annotations @Mock into it
     private TodoService service;
-    @MockBean
+    @Mock
+    //create the mock impl
     private TodoRepository repository;
 
     @Test
@@ -54,11 +54,11 @@ class TodoServiceTest {
     void testGetTodos() throws Exception {
         Todo todo = new Todo(1L, "Learing TDD", false);
         Todo mockTodo = new Todo(2L, "Learing Spring", false);
-        doReturn(Arrays.asList(todo,mockTodo)).when(repository).findAll();
+        doReturn(Arrays.asList(todo, mockTodo)).when(repository).findAll();
 
         List<Todo> todos = service.getAllTodos();
 
-        Assertions.assertEquals(todos.size(),2, "Should return 2 todos");
+        Assertions.assertEquals(todos.size(), 2, "Should return 2 todos");
     }
 
     @Test
@@ -70,8 +70,7 @@ class TodoServiceTest {
         Todo todo = service.addTodo(mockTodo);
 
         Assertions.assertNotNull(todo, "Saved todo shouldn't be null");
-        Assertions.assertSame(mockTodo,todo);
+        Assertions.assertSame(mockTodo, todo);
     }
-
 
 }
