@@ -1,7 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Spring_react_todo" />
-
-  &#xa0;
+  <img src="./app.png" alt="Spring_react_todo"/>&#xa0;
 
   <!-- <a href="https://spring_react_todo.netlify.app">Demo</a> -->
 </div>
@@ -64,8 +62,8 @@ The following tools were used in this project:
 ## :white_check_mark: Requirements ##
 
 Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Docker](https://www.docker.com/) installed.
-If you want to use the app without creating your images,you need [Node.js](https://nodejs.org/en/),[Java 11](https://www.java.com/),[MySQL](https://www.mysql.com/fr/)
-and [Maven](http://maven.apache.org/)
+<!-- If you want to use the app without creating your images,you need [Node.js](https://nodejs.org/en/),[Java 11](https://www.java.com/),[MySQL](https://www.mysql.com/fr/)
+and [Maven](http://maven.apache.org/) -->
 
 ## :checkered_flag: Starting ##
 - If you want to build images and run the app as container  : 
@@ -84,7 +82,7 @@ $ docker-compose up
 
 # The server will initialize in the <http://localhost:80>
 ```
-- If you want to run the app in local : 
+<!-- - If you want to run the app in local : 
  Before that you have to create instance of mysql db :
 ```bash
 # Clone this project
@@ -113,7 +111,7 @@ $ npm start
 # The server will initialize in the <http://localhost:3000>
 
 ```
-
+ -->
 
 ## :memo: License ##
 
